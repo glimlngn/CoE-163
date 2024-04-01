@@ -1,21 +1,33 @@
 function find_min_combi(numberOfLocks, initCombi, unlockCombi){
-    if(numberOfLocks == 0) return 0;
-    let minimumSteps = Math.min(Math.abs(unlockCombi % 10 - initCombi % 10), Math.abs((unlockCombi % 10 - 10) - initCombi % 10));
-    return minimumSteps + find_min_combi(numberOfLocks - 1, (initCombi / 10) | 0, (unlockCombi / 10) | 0);
+    let minimumSteps = 0;
+    while(numberOfLocks > 0){
+        let biggerNum = Math.max(initCombi % 10, unlockCombi % 10);
+        let smallerNum = Math.min(initCombi % 10, unlockCombi % 10);
+        minimumSteps += Math.min(Math.abs(biggerNum - smallerNum), Math.abs((biggerNum - 10) - smallerNum));
+        initCombi = (initCombi / 10) | 0;
+        unlockCombi = (unlockCombi / 10) | 0;
+        numberOfLocks--;
+    }
+    return minimumSteps;
 }
 
 function runtime_profiler(numberOfLocks, initCombi, unlockCombi){
-    let startTime, endTime, runtimeSameLength, runtimeDiffLength;
-
-    startTime = performance.now();
-    for(let i = 0; i < 1000; i++)
-        find_min_combi(numberOfLocks, initCombi, initCombi);
-    endTime = performance.now();
-    runtimeSameLength = endTime - startTime;
+    let startTime, endTime, numberOfLocksRandom, initCombiRandom, unlockCombiRandom, runtimeSameLength, runtimeDiffLength;
 
     startTime = performance.now();
     for(let i = 0; i < 1000; i++)
         find_min_combi(numberOfLocks, initCombi, unlockCombi);
+    endTime = performance.now();
+    runtimeSameLength = endTime - startTime;
+
+    startTime = performance.now();
+    for(let i = 0; i < 1000; i++){
+        numberOfLocksRandom = Math.floor(Math.random() * 25) + 1; // find_min_combi doesn't yet output the correct value for N > 25
+        initCombiRandom = Math.floor(Math.random() * 10 ** numberOfLocksRandom);
+        unlockCombiRandom = Math.floor(Math.random() * 10 ** numberOfLocksRandom); 
+        console.log("Random " + i + ": " + numberOfLocksRandom + " " + initCombiRandom + " " + unlockCombiRandom);
+        console.log(find_min_combi(numberOfLocksRandom, initCombiRandom, unlockCombiRandom));
+    }
     endTime = performance.now();
     runtimeDiffLength = endTime - startTime;
 
