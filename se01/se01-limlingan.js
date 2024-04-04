@@ -18,7 +18,7 @@ function find_min_combi(numberOfLocks, initCombi, unlockCombi){     // has a lot
 function runtime_profiler(numberOfLocks, initCombi, unlockCombi){
     // NOTE: Leading zeroes are considered in runtime profiling.
 
-    let startTime, endTime, numberOfLocksRandom, initCombiRandom, unlockCombiRandom, runtimeSameLength, runtimeDiffLength;
+    let startTime, endTime, numberOfLocksRandom, initCombiRandom, unlockCombiRandom, runtimeSameLength, runtimeDiffLength = 0;
 
     // Case 1: Same Length
     // find_min_combi is iterated 1000 times with programmed input
@@ -29,18 +29,19 @@ function runtime_profiler(numberOfLocks, initCombi, unlockCombi){
     runtimeSameLength = endTime - startTime;
 
     // Case 2: Different Length
-    // Similar to Case 1, but find_min_combi has randomized inputs with N number of D digits where N: 1 to 100, and D: 0 to 9
-    startTime = performance.now();
+    // Similar to Case 1, but find_min_combi has randomized inputs with N number of digits wherein N: [1, 100)
     for(let i = 0; i < 1000; i++){
         numberOfLocksRandom = Math.floor(Math.random() * 100) + 1;
-        initCombiRandom = Math.floor(Math.random() * 10 ** numberOfLocksRandom);
-        unlockCombiRandom = Math.floor(Math.random() * 10 ** numberOfLocksRandom); 
+        initCombiRandom = Math.floor(Math.random() * 10 ** 10);
+        unlockCombiRandom = Math.floor(Math.random() * 10 ** 10); 
+        startTime = performance.now();
+        
         find_min_combi(numberOfLocksRandom, initCombiRandom, unlockCombiRandom);
-        // console.log(i + ": " + numberOfLocksRandom + " " + initCombiRandom + " " + unlockCombiRandom);
-        // console.log(find_min_combi(numberOfLocksRandom, initCombiRandom, unlockCombiRandom));
+        // console.log(i + ": " + numberOfLocksRandom + " " + initCombiRandom + " " + unlockCombiRandom + " " + find_min_combi(numberOfLocksRandom, initCombiRandom, unlockCombiRandom));
+        
+        endTime = performance.now();
+        runtimeDiffLength += endTime - startTime;
     }
-    endTime = performance.now();
-    runtimeDiffLength = endTime - startTime;
 
     return [runtimeSameLength, runtimeDiffLength];  // returns array of runtimes for both profiling cases
 }
