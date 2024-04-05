@@ -18,7 +18,9 @@ function find_min_combi(numberOfLocks, initCombi, unlockCombi){     // has a lot
 function runtime_profiler(numberOfLocks, initCombi, unlockCombi){
     // NOTE: Leading zeroes are considered in runtime profiling.
 
-    let startTime, endTime, numberOfLocksRandom, initCombiRandom, unlockCombiRandom, runtimeSameLength, runtimeDiffLength = 0;
+    let startTime, endTime; 
+    let numberOfLocksRandom, initCombiRandom, unlockCombiRandom;
+    let runtimeSameLength, runtimeDiffLength = 0;
 
     // Case 1: Same Length
     // find_min_combi is iterated 1000 times with programmed input
@@ -51,13 +53,13 @@ function main(){
     let initCombi = "1234";
     let unlockCombi = "9899";
     
-    let minCombi, runtimeProfiler;
+    let minCombi, runtimeProfiler;  // output
     
     if(numberOfLocks != initCombi.length || numberOfLocks != unlockCombi.length){
         console.log("ERROR: Input mismatch in number of locks");    // exits program if error occurs
         return;
     }
-    minCombi = find_min_combi(numberOfLocks, initCombi, unlockCombi);   // output
+    minCombi = find_min_combi(numberOfLocks, initCombi, unlockCombi);
     runtimeProfiler = runtime_profiler(numberOfLocks, initCombi, unlockCombi);
 
     console.log("*********************************************************");   // prints everything in console
