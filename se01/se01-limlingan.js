@@ -6,7 +6,7 @@ function find_min_combi(numberOfLocks, initCombi, unlockCombi){     // has a lot
         let biggerNum = Math.max(initCombi % 10, unlockCombi % 10);    // decides placement of values for the following formula
         let smallerNum = Math.min(initCombi % 10, unlockCombi % 10);
 
-        minimumSteps += Math.min(Math.abs(biggerNum - smallerNum), Math.abs((biggerNum - 10) - smallerNum));    // adds min. steps of digit, number wrapping is emulated
+        minimumSteps += Math.min(biggerNum - smallerNum, smallerNum + 10 - biggerNum);    // adds min. steps of digit, number wrapping is emulated
         
         initCombi = Math.trunc(initCombi / 10);     // iterates to the next digit (from right to left)
         unlockCombi = Math.trunc(unlockCombi / 10);
@@ -24,24 +24,26 @@ function runtime_profiler(numberOfLocks, initCombi, unlockCombi){
 
     // Case 1: Same Length
     // find_min_combi is iterated 1000 times with programmed input
+    
     startTime = performance.now();
     for(let i = 0; i < 1000; i++)
         find_min_combi(numberOfLocks, initCombi, unlockCombi);
     endTime = performance.now();
+
     runtimeSameLength = endTime - startTime;
 
     // Case 2: Different Length
     // Similar to Case 1, but find_min_combi has randomized inputs with N number of digits wherein N: [1, 100)
-    for(let i = 0; i < 1000; i++){
+    for(let i = 1; i <= 1000; i++){
         numberOfLocksRandom = Math.floor(Math.random() * 100) + 1;
-        initCombiRandom = Math.floor(Math.random() * 10 ** 10);
-        unlockCombiRandom = Math.floor(Math.random() * 10 ** 10); 
-        startTime = performance.now();
+        initCombiRandom = Math.floor(Math.random() * 10 ** numberOfLocksRandom);
+        unlockCombiRandom = Math.floor(Math.random() * 10 ** numberOfLocksRandom); 
         
+        startTime = performance.now();
         find_min_combi(numberOfLocksRandom, initCombiRandom, unlockCombiRandom);
         // console.log(i + ": " + numberOfLocksRandom + " " + initCombiRandom + " " + unlockCombiRandom + " " + find_min_combi(numberOfLocksRandom, initCombiRandom, unlockCombiRandom));
-        
         endTime = performance.now();
+
         runtimeDiffLength += endTime - startTime;
     }
 
