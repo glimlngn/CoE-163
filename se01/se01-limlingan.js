@@ -1,6 +1,6 @@
 // NOTE: Please run the code in Node.js. Thank you! 
 
-function find_min_combi(numberOfLocks, initCombi, unlockCombi){     // has a lot of math functions
+function find_min_combi(numberOfLocks, initCombi, unlockCombi){     // has a lot of math functions...
     let minimumSteps = 0;
     while(numberOfLocks > 0){   // loop goes through all digits of the lock
         let biggerNum = Math.max(initCombi % 10, unlockCombi % 10);    // decides placement of values for the following formula
@@ -55,25 +55,30 @@ function main(){
     let initCombi = "1234";
     let unlockCombi = "9899";
     
-    let minCombi, runtimeProfiler;  // output
+    let minCombi, runtimes;  // output
     
     if(numberOfLocks != initCombi.length || numberOfLocks != unlockCombi.length){
         console.log("ERROR: Input mismatch in number of locks");    // exits program if error occurs
         return;
     }
     minCombi = find_min_combi(numberOfLocks, initCombi, unlockCombi);
-    runtimeProfiler = runtime_profiler(numberOfLocks, initCombi, unlockCombi);
+    runtimes = runtime_profiler(numberOfLocks, initCombi, unlockCombi);
 
-    console.log("*********************************************************");   // prints everything in console
-    console.log();
+    console.log();   // prints everything in console
     console.log("CoE 163 SE01: Profiling and Assembly (JavaScript)");
     console.log();
-    console.log("Input:                                 " + numberOfLocks + " " + initCombi + " " + unlockCombi);
-    console.log("Output:                                " + minCombi);
-    console.log("Runtime (Case 1: Same Length):         " + runtimeProfiler[0].toFixed(4) + " ms");
-    console.log("Runtime (Case 2: Different Length):    " + runtimeProfiler[1].toFixed(4) + " ms");
+    console.log("Input                                          " + numberOfLocks + " " + initCombi + " " + unlockCombi);
+    console.log("Output                                         " + minCombi);
+    console.log("Runtime Case 1: Same Length                    " + runtimes[0].toFixed(4) + " ms");
+    console.log("Runtime Case 2: Different Length               " + runtimes[1].toFixed(4) + " ms");
     console.log();
-    console.log("*********************************************************");
+
+    // more runtime profiling
+    // console.log("C1" + ",\t\t\t" + "C2");
+    // for(let i = 0; i < 15; i++) {
+    //     runtimes = runtime_profiler(numberOfLocks, initCombi, unlockCombi);
+    //     console.log(runtimes[0].toFixed(4) + ",\t\t" + runtimes[1].toFixed(4));
+    // }
 }
 
 main();
