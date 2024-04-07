@@ -5,7 +5,7 @@
 
 int findMinCombi(int number_of_locks, std::string init_combi, std::string unlock_combi){
     int bigger_num, smaller_num, temp;
-    int min_steps = 0;;
+    int min_steps = 0;
     while(number_of_locks > 0){
         bigger_num = int(init_combi[number_of_locks - 1] - '0');
         smaller_num = int(unlock_combi[number_of_locks - 1] - '0');
@@ -14,8 +14,11 @@ int findMinCombi(int number_of_locks, std::string init_combi, std::string unlock
             bigger_num = smaller_num;
             smaller_num = temp;
         }
-        min_steps += std::min(bigger_num - smaller_num, (smaller_num + 10) - bigger_num);
-    number_of_locks--;
+        if(bigger_num - smaller_num <= (smaller_num + 10) - bigger_num)
+            min_steps += bigger_num - smaller_num;
+        else
+        min_steps += (smaller_num + 10) - bigger_num;
+        number_of_locks--;
     }
     return min_steps;
 }
@@ -80,15 +83,13 @@ int main(){
     runtime_same_length = runtimes.first;
     runtime_different_length = runtimes.second;
 
-    std::cout << "*********************************************************" << std::endl;   // prints everything in console
-    std::cout << std::endl;
+    std::cout << std::endl;   // prints everything in console
     std::cout << "CoE 163 SE01: Profiling and Assembly (C++)" << std::endl;
     std::cout << std::endl;
-    std::cout << "Input:                                 " << number_of_locks << " " << init_combi << " " << unlock_combi << std::endl;
-    std::cout << "Output:                                " << min_combi << std::endl;
-    std::cout << "Runtime (Case 1: Same Length):         " << runtime_same_length << " ms" << std::endl;
-    std::cout << "Runtime (Case 2: Different Length):    " << runtime_different_length << " ms" << std::endl;
+    std::cout << "Input                                         " << number_of_locks << " " << init_combi << " " << unlock_combi << std::endl;
+    std::cout << "Output                                        " << min_combi << std::endl;
+    std::cout << "Runtime Case 1: Same Length                   " << runtime_same_length << " ms" << std::endl;
+    std::cout << "Runtime Case 2: Different Length              " << runtime_different_length << " ms" << std::endl;
     std::cout << std::endl;
-    std::cout << "*********************************************************" << std::endl;
     return 0;
 }
