@@ -7,17 +7,18 @@ int findMinCombi(int number_of_locks, std::string init_combi, std::string unlock
     int bigger_num, smaller_num, temp;
     int min_steps = 0;
     while(number_of_locks > 0){
-        bigger_num = int(init_combi[number_of_locks - 1] - '0');
+        bigger_num = int(init_combi[number_of_locks - 1] - '0');    // determine which is bigger/smaller, swap values if necessary
         smaller_num = int(unlock_combi[number_of_locks - 1] - '0');
         if(bigger_num < smaller_num){
             temp = bigger_num;
             bigger_num = smaller_num;
             smaller_num = temp;
         }
+        // determine which steps are smaller, add result to min_steps
         if(bigger_num - smaller_num <= (smaller_num + 10) - bigger_num)
-            min_steps += bigger_num - smaller_num;
+            min_steps += bigger_num - smaller_num;  // steps to unlock in one direction
         else
-        min_steps += (smaller_num + 10) - bigger_num;
+        min_steps += (smaller_num + 10) - bigger_num;   // steps to unlock in the other direction
         number_of_locks--;
     }
     return min_steps;
